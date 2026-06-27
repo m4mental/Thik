@@ -1,7 +1,7 @@
 name: Build Personal LSPosed Module
 
 on:
-  workflow_dispatch: # गिटहब से मैन्युअल रूप से बिल्ड चलाने के लिए
+  workflow_dispatch: # मैन्युअल रूप से बिल्ड चलाने के लिए
   push:
     branches:
       - main
@@ -20,10 +20,10 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      # 2. बिल्ड के समय आटोमैटिक कोडिंग मॉडिफिकेशन करना (Python Script)
+      # 2. बिल्ड के समय आटोमैटिक थीम ओवरराइड और यूट्यूब-ओनली मॉडिफिकेशन (पायथन स्क्रिप्ट)
       - name: Auto Patch Morphe Theme & YouTube-Only Optimization
         run: |
-          python -c '
+          cat << 'EOF' > patch.py
           import os
 
           # क) Morphe Patches के अंदर थीम पैच को AMOLED पर फोर्स करना
@@ -160,7 +160,8 @@ fun inContext(lpparam: LoadPackageParam, f: (Application) -> Unit) {
               print("MainHook.kt successfully patched!")
           else:
               print("MainHook.kt not found!")
-          '
+          EOF
+          python patch.py
 
       # 3. जावा सेटअप (JDK 17)
       - name: Set up JDK 17
